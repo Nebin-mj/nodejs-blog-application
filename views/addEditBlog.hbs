@@ -1,0 +1,55 @@
+<h2>{{title}}</h2>
+{{>alert}}
+<form action={{#if (eq title "New Blog")}} "/blog/add" {{else}} "/blog/edit/{{this.id}}" {{/if}} method="POST"
+   enctype="multipart/form-data" class="w-100" id="blog-form">
+   <div class="mb-3">
+      <label for="image" class="form-control">Image</label>
+      <input type="file" name="image" id="image" class="form-control mb-3">
+      <img 
+         src="{{image}}" 
+         id="imageDisplay"
+         class="w-100" 
+         style="height: 40vh; object-fit: cover;{{#unless image}}display: none;{{/unless}}"
+         alt="no network" 
+      />
+   </div>
+   <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" class="form-control" id="title" value="{{blogTitle}}" placeholder="Title" name="title" />
+   </div>
+   <div>
+      <select class="form-select" name="status" aria-label="private or public blog">
+         <option {{#if (eq status "Private")}} selected {{/if}} value="Private">Private</option>
+         <option {{#if (eq status "Public")}} selected {{/if}} value="Public">Public</option>
+      </select>
+   </div>
+   <div class="mb-3">
+      <label for="body" class="form-label">Body</label>
+      <input type="hidden" id="body" value="{{body}}" name="body" />
+      <input type="hidden" id="length" name="length" />
+      <div id="editor" style="background-color: #eee; height: 15rem;"></div>
+   </div>
+   <div class="mb-3">
+      <button type="submit" class="btn btn-outline-success me-3">
+         {{#if (eq title "New Blog")}}
+            Save
+         {{else}}
+            Update
+         {{/if}}
+      </button>
+      <button id="cancel" type="button" class="btn btn-outline-danger">Cancel</a>
+   </div>
+</form>
+<script>
+   const cancelBtn = document.querySelector("#cancel");
+   const imageInpt = document.querySelector("#image");
+   const imageDisplay = document.querySelector("#imageDisplay");
+   imageInpt.addEventListener("change", e => {
+      if(e.target.files.length == 0) return;
+      imageDisplay.setAttribute("src", URL.createObjectURL(e.target.files[0]));
+      imageDisplay.style.display = "block";
+   });
+   cancelBtn.addEventListener("click", () => {
+      history.go(-1);
+   });
+</script>

@@ -1,0 +1,33 @@
+<img
+   src="{{image}}"
+   class="w-100"
+   style="height: 40vh; object-fit: cover;"
+   alt="no network"
+/>
+<h1>{{title}}</h1>
+<div class="row w-100">
+   <span class="lead col-sm-6 col-12" style="font-size: 1rem;">
+      <a
+         href="/users/{{user._id}}"
+         class="text-decoration-none text-color-black text-secondary"
+      >
+         <img
+            src="{{profilePicture}}"
+            alt="avatar"
+            class="rounded-circle img-fluid shadow"
+            style="width: 50px;"
+         />
+         By
+         {{user.name}}
+      </a>
+   </span>
+   <span class="lead col text-end col-xs-12" style="font-size: 1rem;">Created
+      At:
+      {{formatDate createdAt}}
+   </span>
+</div>
+
+{{{body}}}
+{{#if canEdit}}
+   {{>fixed-edit-btn}}
+{{/if}}

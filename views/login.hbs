@@ -1,0 +1,27 @@
+<form action="/login" method="POST" class="col-lg-8 col-sm-12 col-md-12 lead">
+   <div class="mb-3">
+      <h2 class="text-center">Login</h2>
+   </div>
+   {{>alert}}
+   <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input
+         type="email"
+         class="form-control"
+         name="email"
+         id="email"
+         aria-describedby="emailHelp"
+      />
+   </div>
+   <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+         type="password"
+         class="form-control"
+         name="password"
+         id="password"
+      />
+   </div>
+   <button type="submit" class="btn btn-primary col-12">Login</button>
+   <p class="mt-4">Not Registered? <a href="/register">Register</a></p>
+</form>

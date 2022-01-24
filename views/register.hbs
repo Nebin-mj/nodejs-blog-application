@@ -1,0 +1,66 @@
+<form action="/register" method="POST" class="col-lg-8 col-sm-12 col-md-12 lead">
+   <div class="mb-3">
+      <h2 class="text-center">Register</h2>
+   </div>
+   {{>alert}}
+   <div class="mb-3 d-flex align-items-center justify-content-center">
+      <img class="shadow" id="profilePic" style="width: 3rem; height: 3rem; border-radius: 50%; cursor: pointer;" src="" alt=""/>
+      <input type="hidden" value="{{profilePicture}}" name="profilePicture">
+   </div>
+   <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input
+         type="text"
+         class="form-control"
+         name="name"
+         id="name"
+         aria-describedby="emailHelp"
+         value="{{name}}"
+      />
+   </div>
+   <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input
+         type="email"
+         class="form-control"
+         name="email"
+         id="email"
+         aria-describedby="emailHelp"
+         value="{{email}}"
+      />
+   </div>
+   <div class="mb-3">
+      <label for="password1" class="form-label">Password</label>
+      <input
+         type="password"
+         class="form-control"
+         name="password1"
+         id="password1"
+         value="{{password1}}"
+      />
+   </div>
+   <div class="mb-3">
+      <label for="password2" class="form-label">Renter Password</label>
+      <input
+         type="password"
+         class="form-control"
+         name="password2"
+         id="password2"
+         value="{{password2}}"
+      />
+   </div>
+   <button type="submit" class="btn btn-primary col-12">Register</button>
+   <p class="lead mt-4">Already Registered? <a href="/login">Login</a></p>
+</form>
+<script>
+   const img = document.querySelector("img#profilePic");
+   const refreshImg = e => {
+      const randomString = Number.parseInt(Math.random() * 10000);
+      e.target.src = `https://avatars.dicebear.com/api/pixel-art/:${randomString}.svg`;
+      document.querySelector("input[name='profilePicture']").value = randomString;
+   }
+   const profilePicInpt = document.querySelector("input[name='profilePicture']");
+   if(!profilePicInpt.value) refreshImg({ target: img });
+   else img.src = `https://avatars.dicebear.com/api/pixel-art/:${document.querySelector("input[name='profilePicture']").value}.svg`
+   img.addEventListener("click", refreshImg);
+</script>

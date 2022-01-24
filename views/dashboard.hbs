@@ -1,0 +1,37 @@
+{{>alert}}
+<div class="row justify-content-center w-100">
+   {{>profile}}
+   {{#if blogs}}
+      <div class="col-12 col-lg-8  align-self-start ms-auto">
+         <table class="table table-striped shadow">
+            <thead>
+               <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Created At</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Edit</th>
+               </tr>
+            </thead>
+            <tbody>
+               {{#each blogs}}
+                  <tr>
+                     <th scope="row">{{increment @index}}</th>
+                     <td><a href="/blog/{{this._id}}">{{this.title}}</a></td>
+                     <td>{{formatDate this.createdAt}}</td>
+                     <td>{{this.status}}</td>
+                     <td>
+                        <a href="/blog/edit/{{this._id}}">
+                           {{>edit}}
+                        </a>
+                     </td>
+                  </tr>
+               {{/each}}
+            </tbody>
+         </table>
+      </div>
+   {{else}}
+      <div class="d-flex fs-4 align-items-center justify-content-center col-12 col-lg-8">No Blogs Yet.</div>
+   {{/if}}
+</div>
+{{>add}}

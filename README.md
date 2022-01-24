@@ -10,8 +10,10 @@ Frontend styling using bootstrap.
 ### To start the server run:
 
 `npm i`  
+Create a public folder in the root directory withing which create a images folder.  
 Create a `.env` file at the root directory of the project and add values MONGO_URI and SESSION_SECRET to it then run:  
  `npm start`
 
 To star the server using nodemon run:  
- `npm run dev`
+ `npm run dev`  
+The web app will be available on http://localhost:5000  

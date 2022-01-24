@@ -45,9 +45,6 @@ router.get(
    isValidMongooseId,
    checkPrivateBlog,
    async (req, res, next) => {
-      /* Regular expression to remove scripts from a html string - 
-   /(<(\w+|=| |-|"|'|:|;)*script(\w+|=| |-|"|'|:|;)*>)|(<(\w+|=| |-|"|'|:|;)*\/(\w+|=| |-|"|'|:|;)*script(\w+|=| |-|"|'|:|;)*>)/ */
-      //console.log(blog.body.replace(/(<(\w|=| |-|"|'|:|;)+>)|(<\/\w+>)/g, ""));
       const blog = req.blog;
       res.render("blog", {
          ...blog,
@@ -74,15 +71,6 @@ router.post(
       if (length <= 1) {
          errors.push({ error: "Body is required for a blog." });
       }
-
-      /* //checking for html script tags (<script></script>) in blog input
-   if (
-      body.match(
-         /(<(\w+|=| |-|"|'|:|;)*script(\w+|=| |-|"|'|:|;)*>)|(<(\w+|=| |-|"|'|:|;)*\/(\w+|=| |-|"|'|:|;)*script(\w+|=| |-|"|'|:|;)*>)/
-      )
-   ) {
-      errors.push({ error: "unexprected characters in the blog" });
-   } */
 
       if (errors.length != 0) {
          req.flash("prevDetails", {

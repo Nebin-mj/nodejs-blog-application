@@ -7,14 +7,11 @@
          style="width: 150px;"
       />
       <h5 class="my-3">{{name}}</h5>
-      <p class="text-muted mb-1">Full Stack Developer</p>
       <p class="text-muted mb-4">{{email}}</p>
-      <div class="d-flex justify-content-center mb-2">
-         <button type="button" class="btn btn-primary">Follow</button>
-         <button
-            type="button"
-            class="btn btn-outline-primary ms-1"
-         >Message</button>
-      </div>
+      {{#if isAuthenticated}}
+         <div class="d-flex justify-content-center mb-2">
+            <a href="/logout" class="btn btn-primary">Logout</a>
+         </div>
+      {{/if}}
    </div>
 </div>

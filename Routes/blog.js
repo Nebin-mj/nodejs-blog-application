@@ -61,7 +61,8 @@ router.post(
    async (req, res, next) => {
       const { title, status, body, length } = req.body;
       const errors = [];
-      if (!req.blogImage) errors.push({ error: "Add an image for the blog." });
+      if (!req.blogImage && !req.file?.location)
+         errors.push({ error: "Add an image for the blog." });
       if (!title) {
          errors.push({ error: "Title is required for a blog." });
       }

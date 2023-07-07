@@ -87,7 +87,9 @@ router.post(
             title,
             status,
             body,
-            image: `/images/${req.blogImage}`,
+            image: req.blogImage
+               ? `/images/${req.blogImage}`
+               : req.file?.location,
             user: req.user.id,
          });
          const newblog = await blog.save();
@@ -135,7 +137,11 @@ router.post(
          blog.title = title;
          blog.status = status;
          blog.body = body;
-         blog.image = req.blogImage ? `/images/${req.blogImage}` : blog.image;
+         blog.image = (
+            req.blogImage ? `/images/${req.blogImage}` : req.file?.location
+         )
+            ? `/images/${req.blogImage}`
+            : blog.image;
          const newBlog = await blog.save();
          res.redirect(`/blog/${newBlog.id}`);
       } catch (err) {

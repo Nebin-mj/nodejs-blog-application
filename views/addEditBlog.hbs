@@ -4,7 +4,7 @@
    enctype="multipart/form-data" class="w-100" id="blog-form">
    <div class="mb-3">
       <label for="image" class="form-control">Image</label>
-      <input type="file" name="image" id="image" class="form-control mb-3">
+      <input {{#if (eq title "New Blog")}}required{{/if}} type="file" name="image" id="image" class="form-control mb-3">
       <img 
          src="{{image}}" 
          id="imageDisplay"
@@ -15,10 +15,10 @@
    </div>
    <div class="mb-3">
       <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" id="title" value="{{blogTitle}}" placeholder="Title" name="title" />
+      <input required type="text" class="form-control" id="title" value="{{blogTitle}}" placeholder="Title" name="title" />
    </div>
    <div>
-      <select class="form-select" name="status" aria-label="private or public blog">
+      <select required class="form-select" name="status" aria-label="private or public blog">
          <option {{#if (eq status "Private")}} selected {{/if}} value="Private">Private</option>
          <option {{#if (eq status "Public")}} selected {{/if}} value="Public">Public</option>
       </select>

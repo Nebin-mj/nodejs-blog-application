@@ -44,11 +44,13 @@
          quill.root.innerHTML = document.querySelector("#body").value;
          const form = document.querySelector("#blog-form");
          form.addEventListener("submit", e => {
-            if(imageInpt.files.length == 0) {
-               e.preventDefault();
-               alert("Add an image.");
-               return;
-            }
+            {{#if (eq title "New Blog")}}
+               if(imageInpt.files.length == 0) {
+                  e.preventDefault();
+                  alert("Add an image.");
+                  return;
+               }
+            {{/if}}
             const inputBody  = document.querySelector("#body");
             const inputLength  = document.querySelector("#length");
             inputBody.value = quill.root.innerHTML;

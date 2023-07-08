@@ -4,9 +4,9 @@ const uuid = require("uuid").v4;
 const multerS3 = require("multer-s3");
 const { S3 } = require("@aws-sdk/client-s3");
 
-let s3, s3Storage;
+let s3, storage;
 
-if (!process.env.LOCAL_FILE_SYSTEM) {
+if (process.env.FILE_UPLOAD_LOCATION === "AWS") {
    s3 = new S3({
       credentials: {
          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -15,7 +15,7 @@ if (!process.env.LOCAL_FILE_SYSTEM) {
       },
       region: process.env.AWS_REGION,
    });
-   s3Storage = multerS3({
+   storage = multerS3({
       s3: s3,
       bucket: process.env.CYCLIC_BUCKET_NAME,
       metadata: (req, file, cb) => {
@@ -26,20 +26,20 @@ if (!process.env.LOCAL_FILE_SYSTEM) {
          cb(null, fileName);
       },
    });
+} else if (process.env.FILE_UPLOAD_LOCATION === "FS") {
+   storage = multer.diskStorage({
+      destination: (req, file, cb) => {
+         cb(null, path.join(__dirname, "..", "public", "images"));
+      },
+      filename: (req, file, cb) => {
+         const newName = `${uuid()}--${file.originalname}`;
+         req.blogImage = `/images/${newName}`;
+         cb(null, newName);
+      },
+   });
+} else if (process.env.FILE_UPLOAD_LOCATION === "FIREBASE") {
+   storage = multer.memoryStorage();
 }
-
-const fileSystemStorage = multer.diskStorage({
-   destination: (req, file, cb) => {
-      cb(null, path.join(__dirname, "..", "public", "images"));
-   },
-   filename: (req, file, cb) => {
-      const newName = `${uuid()}--${file.originalname}`;
-      cb(null, newName);
-      req.blogImage = newName;
-   },
-});
-
-const storage = process.env.LOCAL_FILE_SYSTEM ? fileSystemStorage : s3Storage;
 
 const upload = multer({ storage });
 module.exports = upload;

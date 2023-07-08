@@ -10,6 +10,7 @@ const {
    checkPrivateBlog,
 } = require("../middlewares/auth.js");
 const serverError = require("../config/serverError.js");
+const firebaseUpload = require("../middlewares/firebaseUpload.js");
 
 const router = express.Router();
 
@@ -58,6 +59,7 @@ router.post(
    "/add",
    isAuthenticated,
    upload.single("image"),
+   firebaseUpload,
    async (req, res, next) => {
       const { title, status, body, length } = req.body;
       const errors = [];
@@ -88,9 +90,7 @@ router.post(
             title,
             status,
             body,
-            image: req.blogImage
-               ? `/images/${req.blogImage}`
-               : req.file?.location,
+            image: req.blogImage ? req.blogImage : req.file?.location,
             user: req.user.id,
          });
          const newblog = await blog.save();
@@ -108,8 +108,9 @@ router.post(
    "/edit/:id",
    isAuthenticated,
    isValidMongooseId,
-   upload.single("image"),
    isOwner,
+   upload.single("image"),
+   firebaseUpload,
    async (req, res, next) => {
       const { title, status, body, length } = req.body;
       const errors = [];
@@ -138,11 +139,8 @@ router.post(
          blog.title = title;
          blog.status = status;
          blog.body = body;
-         blog.image = (
-            req.blogImage ? `/images/${req.blogImage}` : req.file?.location
-         )
-            ? `/images/${req.blogImage}`
-            : blog.image;
+         const blogImage = req.blogImage ? req.blogImage : req.file?.location;
+         blog.image = blogImage ? blogImage : blog.image;
          const newBlog = await blog.save();
          res.redirect(`/blog/${newBlog.id}`);
       } catch (err) {
